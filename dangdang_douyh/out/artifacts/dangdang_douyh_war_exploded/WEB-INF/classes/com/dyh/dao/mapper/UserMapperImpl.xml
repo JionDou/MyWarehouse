@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper	namespace="com.dyh.dao.UserMapper">
+	<!-- 根据邮箱和密码查一个 -->
+	<select id="selectOneUserByEmailAndPassword" resultType="user" parameterType="user">
+		select * from dd_user 
+		where email = #{email} and password = #{password} and status=1
+	</select>
+	<!-- 注册 -->
+	<insert id="insertUserfirst" parameterType="user">
+		insert into dd_user(email,nickname,password,status,cre_date) values(#{email},#{nickname},#{password},0,sysdate())
+	</insert>
+	
+	<update id="updateUserStaus" parameterType="user">
+		update dd_user set status = 1  where email = #{email}
+	</update>
+</mapper>

@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Struts 2" type="struts2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/java框架/Struts2/struts2jar/commons-fileupload.jar!/" />
+      <root url="jar://$USER_HOME$/java框架/Struts2/struts2jar/commons-io.jar!/" />
+      <root url="jar://$USER_HOME$/java框架/Struts2/struts2jar/commons-lang.jar!/" />
+      <root url="jar://$USER_HOME$/java框架/Struts2/struts2jar/freemarker.jar!/" />
+      <root url="jar://$USER_HOME$/java框架/Struts2/struts2jar/javassist-3.20.0-GA.jar!/" />
+      <root url="jar://$USER_HOME$/java框架/Struts2/struts2jar/log4j.jar!/" />
+      <root url="jar://$USER_HOME$/java框架/Struts2/struts2jar/ognl.jar!/" />
+      <root url="jar://$USER_HOME$/java框架/Struts2/struts2jar/struts2-core.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd" >
+<struts>
+	
+	<!-- 测试 -->
+	<package name="p1" extends="struts-default" namespace="/p1">
+		<!--<action name="execute" class="com.dyh.test.MyTest" method="execute">
+			<result name="index">/index.jsp</result>
+		</action>-->
+	</package>
+	<!--    种类查询    -->
+	<package name="category" extends="struts-default" namespace="/category">
+		<action name="findAllCategory" class="com.dyh.action.CategoryAction" method="findAllCategory">
+			<result name="category">/main/category.jsp</result>
+		</action>
+	</package>	
+	<!--   商品查询    -->
+	<package name="product" extends="struts-default" namespace="/product">
+		<!--  编辑推荐   -->
+		<action name="findRecommendProduct" class="com.dyh.action.ProductAction" method="findRecommendProduct">
+			<result name="recommend">/main/recommend.jsp</result>		
+		</action>
+		<!-- 热销推荐    -->
+		<action name="findHotProduct" class="com.dyh.action.ProductAction" method="findHotProduct">
+			<result name="hot">/main/hot.jsp</result>
+		</action>
+		<!--新书推荐  -->
+		<action name="findNewProduct" class="com.dyh.action.ProductAction" method="findNewProduct">
+			<result name="new">/main/new.jsp</result>
+		</action>
+		<!-- 新书热卖推荐 -->
+		<action name="findNewHotproduct" class="com.dyh.action.ProductAction" method="findNewHotproduct">
+			<result name="hotBoard">/main/hotBoard.jsp</result>
+		</action>
+		<!-- 查询单本图书-->
+		<action name="findOneProductById" class="com.dyh.action.ProductAction" method="findOneProductById">
+			<result name="product">/main/product.jsp</result>
+		</action>
+		<!-- 查询所有图书 -->
+		<action name="findAllProduct" class="com.dyh.action.ProductAction" method="findAllProduct">
+			<result name="book_list">/main/book_list.jsp</result>
+		</action>
+		<!-- 级联查询  -->
+		<action name="findAllProductCategory" class="com.dyh.action.ProductAction" method="findAllProductCategory">
+			<result name="book_list">/main/book_list.jsp</result>
+		</action>
+	</package>
+	<!--  验证码   -->
+	<package name="p2"  extends="struts-default" namespace="/p2">
+		<action name="execute" class="com.dyh.action.Captcha" method="execute"></action>
+	</package>
+	<!--  用户    -->
+	<package name="user" extends="struts-default" namespace="/user">
+		<!--  登录查询-->
+		<action name="findOneUserByEmailAndPassword" class="com.dyh.action.UserAction" method="findOneUserByEmailAndPassword">
+			<result name="loginOk" type="redirect">/main/main.jsp</result>
+		</action>
+		<!-- 用户的登出 -->
+		<action name="exit" class="com.dyh.action.UserAction" method="exit">
+			<result name="main" type="redirect">/main/main.jsp</result>
+		</action>
+		<!-- 用户注册第一步  -->
+		<action name="registUserFirst" class="com.dyh.action.UserAction" method="registUserFirst">
+			<result name="gotRandom" type="redirectAction">gotRandom</result>
+		</action>
+		<!-- 邮箱验证码的生成  -->
+		<action name="gotRandom" class="com.dyh.action.UserAction" method="gotRandom">
+			<result name="compareRandom" type="redirect">/user/verify_form.jsp</result>
+		</action>
+		<!-- 邮箱验证码的匹配 -->
+		<action name="compareRandom" class="com.dyh.action.UserAction" method="compareRandom">
+			<result name="verifyUser" type="redirectAction">modifyUserStatus</result>
+			<result name="gotRandom" type="redirectAction">gotRandom</result>
+		</action>
+		<!--   用户状态的修改   -->
+		<action name="modifyUserStatus" class="com.dyh.action.UserAction" method="modifyUserStatus">
+			<result name="registerOk" type="redirect" >/user/register_ok.jsp</result>
+		</action>
+	</package>
+
+	<!--  购物车     -->
+	<package name="car" extends="struts-default" namespace="/car">
+	<!--  增  -->
+	<action name="addOrderItem" class="com.dyh.action.CarAction" method="addOrderItem">
+	</action>
+	<!-- 修改  -->
+	<action name="modifyCar" class="com.dyh.action.CarAction" method="modifyCar">
+		<result name="totalMoney" type="redirectAction">totalMoney</result>
+	</action>
+	<!--  计算小计   -->
+	<action name="totalMoney" class="com.dyh.action.CarAction" method="totalMoney">
+		<result name="cart_list" >/cart/cart_list.jsp</result>
+	</action>
+	<!--  删除订单项   -->
+	<action name="deleteOrderItem" class="com.dyh.action.CarAction" method="deleteOrderItem">
+		<result name="cart_list" type="redirect">/cart/cart_list.jsp</result>
+	</action>
+	<!--  恢复订单项   modifyOrderItem -->
+	<action name="modifyOrderItem" class="com.dyh.action.CarAction" method="modifyOrderItem">
+		<result name="cart_list" type="redirect">/cart/cart_list.jsp</result>
+	</action>
+	</package>
+</struts>

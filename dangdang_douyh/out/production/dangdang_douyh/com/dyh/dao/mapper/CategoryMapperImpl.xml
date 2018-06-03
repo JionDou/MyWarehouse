@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.dyh.dao.CategoryMapper">
+	<resultMap type="category" id="categoryResultMap">
+		<id column="c1id" property="id"/>
+		<result column="c1categoryname" property="categoryName"/>
+		<result column="c1categorylevel" property="categoryLevel"/>
+		<result column="c1bookcount" property="bookCount"/>
+		<result column="c1parentid" property="parentId"/>
+		<collection property="category" ofType="category">
+		<id column="c2id" property="id"/>
+		<result column="c2categoryname" property="categoryName"/>
+		<result column="c2categorylevel" property="categoryLevel"/>
+		<result column="c2bookcount" property="bookCount"/>
+		<result column="c2parentid" property="parentId"/>
+		</collection>
+	</resultMap>
+	<sql id="SELECT_CATEGORY">
+		    c1.id as c1id,c1.category_name as c1categoryname,c1.category_level as c1categorylevel,
+			c1.book_count  as c1bookcount,c1.parent_id as c1parentid,
+			c2.id as c2id,c2.category_name as c2categoryname,c2.category_level as c2categorylevel,
+			c2.book_count  as c2bookcount,c2.parent_id as c2parentid
+
+	</sql>
+	<!-- 分类部分查询 -->
+	<select id="selectSomeCategory" resultMap="categoryResultMap">
+		select <include refid="SELECT_CATEGORY"/>
+			from dd_category c1
+			join dd_category c2
+			on c1.id = c2.parent_id
+			where c2.parent_id = #{firstId}
+	</select>
+	<!--   分类查所有      -->
+	<select id="selectAllCategory" resultMap="categoryResultMap">
+		select <include refid="SELECT_CATEGORY"/>
+			from dd_category c1
+			join dd_category c2
+			on c1.id = c2.parent_id
+	</select>
+	
+</mapper>

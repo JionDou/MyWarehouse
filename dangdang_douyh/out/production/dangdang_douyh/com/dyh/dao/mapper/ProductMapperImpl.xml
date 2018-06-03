@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dyh.dao.ProductMapper">
+	<!-- 产品 -->
+	<resultMap type="product" id="productResultMap">
+		<id column="pId" property="id"/>
+		<result column="pBookName"         property="bookName"/>
+		<result column="pAuthorName"       property="authorName"/>
+		<result column="pPublishHouse"     property="publishHouse"/>
+		<result column="pPublishTime"      property="publishTime"/>
+		<result column="pPublishCount"     property="publishCount"/>
+		<result column="pPrintTime"        property="printTime"/>
+		<result column="pPrintCount"       property="printCount"/>
+		<result column="pISBN"             property="ISBN"/>
+		<result column="pWordCount"        property="wordCount"/>
+		<result column="pPageCount"        property="pageCount"/>
+		<result column="pBookSize"         property="bookSize"/>
+		<result column="pPaperMater"       property="paperMater"/>
+		<result column="pPackageWay"       property="packageWay"/>
+		<result column="pEditRecommend"    property="editRecommend"/>
+		<result column="pContentIntroduce" property="contentIntroduce"/>
+		<result column="pAuthorIntroduce"  property="authorIntroduce"/>
+		<result column="pMediaComment"     property="mediaComment"/>
+		<result column="pExcerpt"          property="excerpt"/>
+		<result column="pUsedPrice"        property="usedPrice"/>
+		<result column="pDdPrice"          property="ddPrice"/>
+		<result column="pPurchaseCount"    property="purchaseCount"/>
+		<result column="pPutTime"          property="putTime"/>
+		<result column="pPhotoSrc"         property="photoSrc"/>
+		<result column="pHitNum"           property="hitNum"/>
+		<association property="category"   javaType="Category">
+		<id column="c2id" property="id"/>
+		<result column="c2CategoryName"     property="categoryName"/>
+		<result column="c2CategoryLevel"    property="categoryLevel"/>
+		<result column="c2BookCount"        property="bookCount"/>
+		<result column="c2ParentId"         property="parentId"/>
+		</association>
+	</resultMap>
+	
+	<!-- product商品表的片段  -->
+	<sql id="SELECT_PRODUCT">
+	 	p.id as pId,p.book_name as pBookName,p.author_name as pAuthorName,p.publish_house as pPublishHouse,p.publish_time as pPublishTime,
+		p.publish_count as pPublishCount,p.print_time as pPrintTime,p.print_count as pPrintCount,p.ISBN as pISBN,p.word_count as pWordCount ,
+		p.page_count as pPageCount,p.book_size as pBookSize,p.paper_mater as pPaperMater ,p.package_way as pPackageWay,
+		p.edit_recommend as pEditRecommend ,p.content_introduce as pContentIntroduce,p.author_introduce as pAuthorIntroduce ,p.media_comment as pMediaComment ,
+		p.excerpt as pExcerpt,p.used_price as pUsedPrice,p.dd_price as pDdPrice,p.purchase_count as pPurchaseCount ,
+		p.put_time as pPutTime,p.photo_src as pPhotoSrc ,p.hit_num as pHitNum 
+	</sql>	
+	
+	<!-- category 种类表的片段    -->
+	<sql id="SELECT_CATEGORY">
+		c.id as cId ,c.category_name as cCategoryName,c.category_level as cCategoryLevel,
+		c.book_count as cBookCount ,c.parent_id as cParentId
+	</sql>
+	<!--   编辑推荐，通过点击量前2名     -->
+	<select id="selectRecommendProduct" resultMap="productResultMap">
+	  select <include refid="SELECT_PRODUCT"/>,<include refid="SELECT_CATEGORY"/>
+		from dd_product p
+		join dd_category c
+		on p.catalog_id = c.id
+		order by hit_num desc
+	</select>
+	<!--     热销图书     根据购买数量    -->
+	<select id="selectHotProduct" resultMap="productResultMap">
+	  select <include refid="SELECT_PRODUCT"/>,<include refid="SELECT_CATEGORY"/>
+		from dd_product p
+		join dd_category c
+		on p.catalog_id = c.id
+		order by purchase_count desc
+	</select>
+	<!--    最新上架，根据上架时间       -->
+	<select id="selectNewProduct" resultMap="productResultMap">
+	  select <include refid="SELECT_PRODUCT"/>,<include refid="SELECT_CATEGORY"/>
+		from dd_product p
+		join dd_category c
+		on p.catalog_id = c.id
+		order by put_time desc
+	</select>
+	<!-- 新书热卖榜，根据销量和上架时间      -->
+	<select id="selectNewHotProduct" resultMap="productResultMap">
+	  select <include refid="SELECT_PRODUCT"/>,<include refid="SELECT_CATEGORY"/>
+		from dd_product p
+		join dd_category c
+		on p.catalog_id = c.id
+		order by purchase_count,put_time desc
+	</select>
+	<!--    所有图书展示    -->
+	<select id="selectAllProduct" resultMap="productResultMap">
+	  select <include refid="SELECT_PRODUCT"/>,<include refid="SELECT_CATEGORY"/>
+		from dd_product p
+		join dd_category c
+		on p.catalog_id = c.id
+	</select>
+	<!-- 单本图书展示 -->
+	<select id="selectOneProductById" resultMap="productResultMap">
+	  select <include refid="SELECT_PRODUCT"/>,<include refid="SELECT_CATEGORY"/>
+		from dd_product p
+		join dd_category c
+		on p.catalog_id = c.id
+		where p.id = #{id}
+	</select>
+	<!-- 获取总页数 -->
+
+	<!--   商品分类查询   分页查询    -->
+	<select id="selectAllProductCategory" resultMap="productResultMap">
+		SELECT <include refid="SELECT_PRODUCT"/>,<include refid="SELECT_CATEGORY"/>
+		from dd_product p
+		join dd_category c
+		on p.catalog_id = c.id
+		dd_product limit #{start},#{end}
+	</select>
+
+</mapper>

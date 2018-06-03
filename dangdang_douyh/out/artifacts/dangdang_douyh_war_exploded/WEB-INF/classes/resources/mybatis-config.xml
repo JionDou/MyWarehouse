@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- 整体配置文件 -->
+<configuration>
+	<properties resource="dbconfig.properties"></properties>
+	<!--type 指定实体类 alias别名 唯一-->
+	<typeAliases>
+		<typeAlias type="com.dyh.entity.Category" alias="category"/>
+		<typeAlias type="com.dyh.entity.Product" alias="product"/>
+		<typeAlias type="com.dyh.entity.User" alias="user"/>
+		<typeAlias type="com.dyh.entity.Address" alias="address"/>
+		<typeAlias type="com.dyh.entity.Order" alias="order"/>
+		<typeAlias type="com.dyh.entity.PageBean" alias="pageBean"/>
+	</typeAliases>
+	<environments default="mysql">
+		<!-- 配置应用环境 -->
+		<environment id="mysql">
+			<!-- 配置事务管理 -->
+			<transactionManager type="JDBC"/>
+			<!-- 配置的数据库连接 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 配置的是映射文件 -->
+	<mappers>
+		<mapper resource="com/dyh/dao/mapper/CategoryMapperImpl.xml" />
+		<mapper resource="com/dyh/dao/mapper/ProductMapperImpl.xml" />
+		<mapper resource="com/dyh/dao/mapper/UserMapperImpl.xml" />
+	</mappers>
+
+</configuration>
